@@ -1,24 +1,10 @@
-import React, { useEffect, useState } from "react"
+import { FC } from "react"
+import { ChakraProvider } from "@chakra-ui/react";
+import theme from "theme/theme";
 
-import { execTest } from "lib/api/test"
-
-const App: React.FC = () => {
-  const [message, setMessage] = useState<string>("")
-
-  const handleExecTest = async () => {
-    const res = await execTest()
-
-    if (res.status === 200) {
-      setMessage(res.data.message)
-    }
-  }
-
-  useEffect(() => {
-    handleExecTest()
-  }, [])
-
+const App: FC = () => {
   return (
-    <h1>{message}</h1>
+    <ChakraProvider theme={theme}></ChakraProvider>
   )
 }
 
