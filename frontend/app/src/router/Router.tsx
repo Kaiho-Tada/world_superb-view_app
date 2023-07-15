@@ -5,13 +5,14 @@ import { Home } from "components/pages/Home";
 import { Login } from "components/pages/Login";
 import { Signup } from "components/pages/Signup";
 import { Page404 } from "components/pages/Page404";
+import { CommonLayout } from "templates/CommonLayout";
 
 export const Router: FC = memo(() => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      <Route path="/" element={<CommonLayout><Home /></CommonLayout>} />
+      <Route path="/login" element={<CommonLayout><Login /></CommonLayout>} />
+      <Route path="/signup" element={<CommonLayout><Signup /></CommonLayout>} />
       <Route path="*" element={<Page404 />} />
     </Routes>
   )
