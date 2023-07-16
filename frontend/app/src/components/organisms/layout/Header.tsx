@@ -1,8 +1,14 @@
-import { FC, memo, useCallback } from "react";
+import { FC, memo, useCallback, useContext } from "react";
 import { Flex, Heading, Link, useDisclosure } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { MenuDrawer } from "components/molecules/MenuDrawer";
 import { MenuIconButton } from "components/atoms/button/MenuIconButton";
+import Cookies from "js-cookie"
+
+import { AuthContext } from "App";
+import { signout } from "lib/api/auth";
+import { useMessage } from "hooks/useMessage";
+
 export const Header: FC = memo(() => {
 
   const navigate = useNavigate();
@@ -16,6 +22,50 @@ export const Header: FC = memo(() => {
     onClose: onCloseMenuDrawer
   } = useDisclosure()
 
+  const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext)
+  const { showMessage } = useMessage();
+
+  const handleSignOut = async () => {
+    try {
+      const res = await signout()
+
+      if (res.data.success === true) {
+        Cookies.remove("_access_token")
+        Cookies.remove("_client")
+        Cookies.remove("_uid")
+
+        setIsSignedIn(false)
+        navigate("/signin")
+
+        showMessage({title: "サインアウトしました", status: "success"})
+      } else {
+        showMessage({title: "サインアウトに失敗しました", status: "error"})
+      }
+    } catch (err) {
+      showMessage({title: "エラーが発生しました", status: "error"})
+    }
+  }
+
+  const AuthLinks = () => {
+
+    if (!loading) {
+      if (isSignedIn) {
+        return (
+          <Link onClick={handleSignOut}>サインアウト</Link>
+        )
+      } else {
+        return (
+          <>
+            <Link pr={4} onClick={onClickLogin}>ログイン</Link>
+            <Link onClick={onClickSignup}>新規登録</Link>
+          </>
+        )
+      }
+    } else {
+      return <></>
+    }
+  }
+
   return (
     <>
       <Flex as="nav" bg="white" color="gray.800" align="center"
@@ -26,8 +76,7 @@ export const Header: FC = memo(() => {
           </Heading>
         </Flex>
         <Flex fontSize="sm" display={{ base: "none", md: "flex"}}>
-          <Link pr={4} onClick={onClickLogin}>ログイン</Link>
-          <Link onClick={onClickSignup}>新規登録</Link>
+          <AuthLinks />
         </Flex>
         <MenuIconButton onOpenMenuDrawer={onOpenMenuDrawer} />
       </Flex>
