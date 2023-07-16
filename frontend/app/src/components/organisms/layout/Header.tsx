@@ -22,10 +22,11 @@ export const Header: FC = memo(() => {
     onClose: onCloseMenuDrawer
   } = useDisclosure()
 
-  const { loading, isSignedIn, setIsSignedIn } = useContext(AuthContext)
+  const { loading, setLoading, isSignedIn, setIsSignedIn } = useContext(AuthContext)
   const { showMessage } = useMessage();
 
   const handleSignOut = async () => {
+    setLoading(true)
     try {
       const res = await signout()
 
@@ -35,7 +36,7 @@ export const Header: FC = memo(() => {
         Cookies.remove("_uid")
 
         setIsSignedIn(false)
-        navigate("/signin")
+        navigate("/login")
 
         showMessage({title: "サインアウトしました", status: "success"})
       } else {
@@ -44,6 +45,7 @@ export const Header: FC = memo(() => {
     } catch (err) {
       showMessage({title: "エラーが発生しました", status: "error"})
     }
+    setLoading(false)
   }
 
   const AuthLinks = () => {
