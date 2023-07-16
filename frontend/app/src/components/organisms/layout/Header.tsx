@@ -1,8 +1,8 @@
 import { FC, memo, useCallback } from "react";
-import { Flex, Heading, Link, IconButton, useDisclosure } from "@chakra-ui/react"
-import { HamburgerIcon } from "@chakra-ui/icons"
+import { Flex, Heading, Link, useDisclosure } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { MenuDrawer } from "components/molecules/MenuDrawer";
+import { MenuIconButton } from "components/atoms/button/MenuIconButton";
 export const Header: FC = memo(() => {
 
   const navigate = useNavigate();
@@ -29,8 +29,7 @@ export const Header: FC = memo(() => {
           <Link pr={4} onClick={onClickLogin}>ログイン</Link>
           <Link onClick={onClickSignup}>新規登録</Link>
         </Flex>
-        <IconButton aria-label="メニューボタン" icon={<HamburgerIcon />} size="md"
-          variant="unstyled" display={{ base: "block", md: "none"}} onClick={onOpenMenuDrawer} />
+        <MenuIconButton onOpenMenuDrawer={onOpenMenuDrawer} />
       </Flex>
       <MenuDrawer onCloseMenuDrawer={onCloseMenuDrawer} isOpenMenuDrawer={isOpenMenuDrawer}
         onClickHome={onClickHome} onClickLogin={onClickLogin} onClickSignup={onClickSignup} />
