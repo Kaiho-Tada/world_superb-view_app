@@ -34,7 +34,7 @@ export const Signup: FC = memo(() => {
       email: email,
       password: password,
       passwordConfirmation: passwordConfirmation,
-      confirm_success_url: "http://localhost:4000/signin"
+      confirm_success_url: "http://localhost:4000/login"
     }
 
     try {
