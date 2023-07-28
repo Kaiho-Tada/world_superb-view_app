@@ -6,6 +6,7 @@ import { Login } from "components/pages/Login";
 import { Signup } from "components/pages/Signup";
 import { Page404 } from "components/pages/Page404";
 import { CommonLayout } from "templates/CommonLayout";
+import { AllPlaces } from "components/pages/AllPlaces";
 
 export const Router: FC = memo(() => {
   return (
@@ -13,6 +14,7 @@ export const Router: FC = memo(() => {
       <Route path="/" element={<CommonLayout><Home /></CommonLayout>} />
       <Route path="/login" element={<CommonLayout><Login /></CommonLayout>} />
       <Route path="/signup" element={<CommonLayout><Signup /></CommonLayout>} />
+      <Route path="/places" element={<CommonLayout><AllPlaces /></CommonLayout>} />
       <Route path="*" element={<Page404 />} />
     </Routes>
   )

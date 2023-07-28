@@ -44,9 +44,10 @@ const App: FC = () => {
   }, [setCurrentUser])
 
   return (
+
     <ChakraProvider theme={theme}>
       <BrowserRouter>
-        <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser}}>
+        <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser }}>
           <Router />
         </AuthContext.Provider>
       </BrowserRouter>

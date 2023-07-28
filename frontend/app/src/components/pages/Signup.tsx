@@ -45,7 +45,6 @@ export const Signup: FC = memo(() => {
 
         showMessage({title: '登録メールアドレスにユーザー認証メールを送信しました。認証が完了しましたら、ログインしてください。', status: "success"})
 
-
         navigate("/login")
         console.log("Signed in successfully!")
       } else {
@@ -67,7 +66,7 @@ export const Signup: FC = memo(() => {
           <Input placeholder="メールアドレス" value={email} onChange={onChangeEmail} />
           <Input placeholder="パスワード" type="password" value={password} onChange={onChangePassword} />
           <Input placeholder="パスワード" type="password" value={passwordConfirmation} onChange={onChangePasswordConfirmation} />
-          <PrimaryButton isDisabled={name === "" || email === "" || password === "" || passwordConfirmation === "" }
+          <PrimaryButton isDisabled={ name === "" || email === "" || password === "" || passwordConfirmation === "" }
             loading={loading} onClick={onClickSignup}>新規登録</PrimaryButton>
         </Stack>
       </Box>

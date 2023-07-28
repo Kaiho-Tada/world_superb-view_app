@@ -12,7 +12,7 @@ export const PrimaryButton: FC<Props> = memo((props) => {
   const {children, isDisabled = false, loading = false, onClick} = props;
   return (
     <Button bg="teal.400" color="white" _hover={{opacity: 0.6}}
-    onClick={onClick} isLoading={loading} isDisabled={isDisabled || loading}>
+      onClick={onClick} isLoading={loading} isDisabled={isDisabled || loading}>
       {children}
     </Button>
   )

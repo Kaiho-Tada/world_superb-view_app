@@ -15,6 +15,7 @@ export const Header: FC = memo(() => {
   const onClickHome = useCallback(() => navigate("/"), [navigate])
   const onClickLogin = useCallback(() => navigate("/login"), [navigate])
   const onClickSignup = useCallback(() => navigate("/signup"), [navigate])
+  const onClickAllPlaces = useCallback(() => navigate("/places"), [navigate])
 
   const {
     isOpen: isOpenMenuDrawer,
@@ -76,6 +77,9 @@ export const Header: FC = memo(() => {
           <Heading as="h1" fontSize={{ base: "md", md: "lg" }} >
             App
           </Heading>
+        </Flex>
+        <Flex fontSize="sm" flexGrow={2} display={{ base: "none", md: "flex"}}>
+          <Link pl={{base: 4, lg: 8}} onClick={onClickAllPlaces}>絶景一覧</Link>
         </Flex>
         <Flex fontSize="sm" display={{ base: "none", md: "flex"}}>
           <AuthLinks />
