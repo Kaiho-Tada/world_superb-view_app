@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       end
 
       resources :places, :only => [:index]
+      get "/places/search", to: "places#search"
+
     end
   end
 end

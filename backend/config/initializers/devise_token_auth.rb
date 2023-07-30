@@ -5,12 +5,12 @@ DeviseTokenAuth.setup do |config|
   config.token_lifespan = 2.weeks
   config.token_cost = Rails.env.test? ? 4 : 10
 
-    config.headers_names = {
-      :'access-token' => 'access-token',
-      :'client' => 'client',
-      :'expiry' => 'expiry',
-      :'uid' => 'uid',
-      :'token-type' => 'token-type',
-      :'authorization' => 'authorization'
+  config.headers_names = {
+    :'access-token' => 'access-token',
+    :'client' => 'client',
+    :'expiry' => 'expiry',
+    :'uid' => 'uid',
+    :'token-type' => 'token-type',
+    :'authorization' => 'authorization'
   }
 end

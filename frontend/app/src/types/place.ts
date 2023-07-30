@@ -1,6 +1,6 @@
 import { Country } from "./country";
 
-export type Place = {
+export type Places = {
   id: number;
   countries: Array<Country>;
   createdAt: string;
