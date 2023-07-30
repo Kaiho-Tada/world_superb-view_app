@@ -1,4 +1,4 @@
-import { Center, Flex, Spinner, Wrap, WrapItem, useDisclosure, Box, Button, FilterDrawer, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel } from "@chakra-ui/react";
+import { Center, Flex, Spinner, Wrap, WrapItem, useDisclosure, Box, Button, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Image } from "@chakra-ui/react";
 import { FC, memo, useState, useEffect, useCallback } from "react";
 import { useMessage } from "hooks/useMessage"
 
@@ -8,12 +8,20 @@ import { Places } from "types/place";
 import { GenreCheckBox } from "components/molecules/GenreCheckBox";
 import { CountryCheckBox } from "components/molecules/CountryCheckBox";
 import { TypeCheckBox } from "components/molecules/TypeCheckBox";
+import { FilterDrawer } from "components/molecules/FilterDrawer";
+import filter_icon from "img/511_s_f.png"
 
 export const AllPlaces: FC = memo(() => {
 
   const [places, setPlaces] = useState<Array<Places>>([])
   const [loading, setLoading] = useState(false)
   const {showMessage} = useMessage()
+
+  const {
+    isOpen: isOpenFilterDrawer,
+    onOpen: onOpenFilterDrawer,
+    onClose: onCloseFilterDrawer
+  } = useDisclosure()
 
   const getPlaces = async () => {
     setLoading(true)
@@ -180,7 +188,7 @@ export const AllPlaces: FC = memo(() => {
           <Spinner />
         </Center>
       ) :(
-        <Flex py={{base: 6, md: 10, lg: 12}} px={{base: 3, md: 6, lg: 10}} bg="black">
+        <Flex py={{base: 6, md: 10, lg: 12}} px={{base: 3, md: 6, lg: 10}} display={{ base: "block", md: "flex"}} bg="black">
           <Accordion allowMultiple w={{md: "25%", lg: "20%"}} display={{ base: "none", md: "block"}} pr={6} color="white">
             <Box as="span" flex='1' p="4" color="gray" fontWeight="bold" fontSize="lg" >
              絞り込み
@@ -266,6 +274,16 @@ export const AllPlaces: FC = memo(() => {
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
+          <Box display={{ base: "block", md: "none"}} pb="3">
+            <Button colorScheme='red' variant='outline' onClick={onOpenFilterDrawer}  bg="white" >
+              <Image  boxSize="20px" src={filter_icon} color="red"
+                      mr="2" />
+              絞り込み
+            </Button>
+          </Box>
+          <FilterDrawer places={places} isOpenFilterDrawer={isOpenFilterDrawer} onCloseFilterDrawer={onCloseFilterDrawer}onClickClear={onClickClear}
+            setPlaces={setPlaces} genres={genres} setGenres={setGenres} countries={countries} setCountries={setCountries}
+            types={types} setTypes={setTypes} genre_categories={genre_categories} country_states={country_states} />
 
           <Wrap w={{md: "75%", lg: "80%"}}>
             {places.map((place) => (

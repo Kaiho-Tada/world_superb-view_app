@@ -5,26 +5,10 @@ import { SetStateAction } from "react";
 import { useMessage } from "hooks/useMessage";
 import { Places } from "types/place";
 import { SearchPlace } from "lib/api/place";
+import { Types } from "types/states/type";
+import { Genres } from "types/states/genre";
+import { Countries } from "types/states/country";
 
-type Genres = {
-  label: string,
-  category: string,
-  place_names: string[],
-  checked: boolean
-}
-
-type Countries = {
-  label: string,
-  state: string,
-  place_names: string[],
-  checked: boolean
-}
-
-type Types = {
-  label: string,
-  place_names: string[],
-  checked: boolean
-}
 
 type PlaceProps = {
   setPlaces: Dispatch<SetStateAction<Places[]>>,
