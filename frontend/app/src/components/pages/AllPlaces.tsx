@@ -1,15 +1,13 @@
-import { Center, Flex, Spinner, Wrap, WrapItem, useDisclosure, Box, Button, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Image } from "@chakra-ui/react";
+import { Center, Flex, Spinner, Wrap, WrapItem, useDisclosure, Box, Button, Image } from "@chakra-ui/react";
 import { FC, memo, useState, useEffect, useCallback } from "react";
 import { useMessage } from "hooks/useMessage"
 
 import { PlaceAll } from "lib/api/place";
 import { PlaceCard } from "components/organisms/place/PlaceCard";
 import { Places } from "types/place";
-import { GenreCheckBox } from "components/molecules/GenreCheckBox";
-import { CountryCheckBox } from "components/molecules/CountryCheckBox";
-import { TypeCheckBox } from "components/molecules/TypeCheckBox";
 import { FilterDrawer } from "components/molecules/FilterDrawer";
 import filter_icon from "img/511_s_f.png"
+import { FilterAccordion } from "components/organisms/FilterAccordion";
 
 export const AllPlaces: FC = memo(() => {
 
@@ -189,91 +187,8 @@ export const AllPlaces: FC = memo(() => {
         </Center>
       ) :(
         <Flex py={{base: 6, md: 10, lg: 12}} px={{base: 3, md: 6, lg: 10}} display={{ base: "block", md: "flex"}} bg="black">
-          <Accordion allowMultiple w={{md: "25%", lg: "20%"}} display={{ base: "none", md: "block"}} pr={6} color="white">
-            <Box as="span" flex='1' p="4" color="gray" fontWeight="bold" fontSize="lg" >
-             絞り込み
-            </Box>
-            <Box as="button" color="blue.500" fontSize="sm" onClick={onClickClear} textAlign="right">
-             クリア
-            </Box>
-            <AccordionItem mt="2">
-              <h2>
-                <AccordionButton>
-                  <Box as="span" flex='1' textAlign='left'>
-                    ジャンル
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                <Accordion allowMultiple>
-                  {
-                    genre_categories.map((genre_category) => (
-                      <AccordionItem mt="2">
-                        <h2>
-                          <AccordionButton>
-                            <Box as="span" flex='1' textAlign='left'>
-                              {genre_category}
-                            </Box>
-                            <AccordionIcon />
-                          </AccordionButton>
-                        </h2>
-                        <AccordionPanel pb={4}>
-                          <GenreCheckBox setPlaces={setPlaces} genre_category={genre_category} genres={genres} setGenres={setGenres}
-                            countries={countries} types={types} />
-                        </AccordionPanel>
-                      </AccordionItem>
-                    ))
-                  }
-                </Accordion>
-              </AccordionPanel>
-            </AccordionItem>
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box as="span" flex='1' textAlign='left'>
-                    地域
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                <Accordion allowMultiple>
-                  {
-                    country_states.map((country_state) => (
-                      <AccordionItem>
-                        <h2>
-                          <AccordionButton>
-                            <Box as="span" flex='1' textAlign='left'>
-                              {country_state}
-                            </Box>
-                            <AccordionIcon />
-                          </AccordionButton>
-                        </h2>
-                        <AccordionPanel pb={4}>
-                          <CountryCheckBox setPlaces={setPlaces} country_state={country_state} countries={countries} setCountries={setCountries}
-                            genres={genres} types={types} />
-                        </AccordionPanel>
-                      </AccordionItem>
-                    ))
-                  }
-                </Accordion>
-              </AccordionPanel>
-            </AccordionItem>
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box as="span" flex='1' textAlign='left'>
-                    属性
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                <TypeCheckBox setPlaces={setPlaces} types={types} setTypes={setTypes} genres={genres} countries={countries} />
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
+          <FilterAccordion onClickClear={onClickClear} setPlaces={setPlaces} genres={genres} setGenres={setGenres} countries={countries}
+            setCountries={setCountries} types={types} setTypes={setTypes} genre_categories={genre_categories} country_states={country_states} />
           <Box display={{ base: "block", md: "none"}} pb="3">
             <Button colorScheme='red' variant='outline' onClick={onOpenFilterDrawer}  bg="white" >
               <Image  boxSize="20px" src={filter_icon} color="red"
@@ -281,7 +196,7 @@ export const AllPlaces: FC = memo(() => {
               絞り込み
             </Button>
           </Box>
-          <FilterDrawer places={places} isOpenFilterDrawer={isOpenFilterDrawer} onCloseFilterDrawer={onCloseFilterDrawer}onClickClear={onClickClear}
+          <FilterDrawer isOpenFilterDrawer={isOpenFilterDrawer} onCloseFilterDrawer={onCloseFilterDrawer}onClickClear={onClickClear}
             setPlaces={setPlaces} genres={genres} setGenres={setGenres} countries={countries} setCountries={setCountries}
             types={types} setTypes={setTypes} genre_categories={genre_categories} country_states={country_states} />
 
