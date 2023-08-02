@@ -1,11 +1,11 @@
 import { Country } from "./country";
 
-export type Places = {
+export type Place = {
   id: number;
   countries: Array<Country>;
-  createdAt: string;
+  createdAt: Date;
   name: string;
   imageUrl: string;
-  updatedAt: string;
+  updatedAt: Date;
   panoramaUrl: string | null;
 }

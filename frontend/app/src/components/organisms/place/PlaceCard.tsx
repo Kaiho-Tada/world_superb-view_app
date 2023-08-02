@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { FC, memo } from "react";
-import { Country } from "types/country";
+import { Country } from "types/api/country";
 
 type Props = {
   imageUrl: string;

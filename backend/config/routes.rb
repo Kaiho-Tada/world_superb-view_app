@@ -13,6 +13,10 @@ Rails.application.routes.draw do
       resources :places, :only => [:index]
       get "/places/search", to: "places#search"
 
+      resources :genres, :only => [:index]
+      resources :countries, :only => [:index]
+      resources :types, :only => [:index]
+
     end
   end
 end
