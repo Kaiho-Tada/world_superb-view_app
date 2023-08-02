@@ -1,29 +1,19 @@
 import { Checkbox } from "@chakra-ui/react";
-import { FC, memo, Dispatch, useState } from "react";
-import { SetStateAction } from "react";
+import { FC, memo, useContext, useState } from "react";
 
 import { useMessage } from "hooks/useMessage";
-import { Places } from "types/place";
 import { SearchPlace } from "lib/api/place";
-import { Genres } from "types/states/genre";
-import { Countries } from "types/states/country";
-import { Types } from "types/states/type";
+import { PlaceContext } from "components/pages/AllPlaces";
 
-
-type PlaceProps = {
-  setPlaces: Dispatch<SetStateAction<Places[]>>,
+type GenreCheckBoxProps = {
   genre_category: string,
-  genres: Array<Genres>,
-  setGenres: Dispatch<SetStateAction<Genres[]>>,
-  countries: Array<Countries>,
-  types: Array<Types>,
 }
 
-export const GenreCheckBox: FC<PlaceProps> = memo((props) => {
-  const { setPlaces, genre_category, genres, setGenres, countries, types } = props
+export const GenreCheckBox: FC<GenreCheckBoxProps> = memo((props) => {
+  const { genre_category } = props
+  const { setPlaces, genres, setGenres, countries, types, keyword } = useContext(PlaceContext)
   const [loading, setLoading] = useState(false)
   const {showMessage} = useMessage()
-
 
   const handleChange = (e: any) => {
 
@@ -61,7 +51,7 @@ export const GenreCheckBox: FC<PlaceProps> = memo((props) => {
 
     const searchPlaces = async () => {
       setLoading(true)
-      const res = await SearchPlace(genre_names, country_names, type_names)
+      const res = await SearchPlace(genre_names, country_names, type_names, keyword)
 
       console.log(res)
       if (res.status === 200) {

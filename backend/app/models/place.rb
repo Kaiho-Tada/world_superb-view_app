@@ -18,7 +18,7 @@ class Place < ApplicationRecord
              .filter_genre(names)
 
     genre_ids = genres&.map { |genre| genre.id }&.join(',')
-    joins(:genres).where("genres.id IN (#{genre_ids})")
+    joins(:genres).where("genres.id IN (#{genre_ids})").distinct
   }
 
   scope :filter_by_country, lambda { |names|
@@ -29,7 +29,7 @@ class Place < ApplicationRecord
                 .filter_country(names)
 
     country_ids = countries.map { |country| country.id }.join(',')
-    joins(:countries).where("countries.id IN (#{country_ids})")
+    joins(:countries).where("countries.id IN (#{country_ids})").distinct
   }
 
   scope :filter_by_type, lambda { |names|
@@ -40,8 +40,16 @@ class Place < ApplicationRecord
             .filter_type(names)
 
     type_ids = types.map { |type| type.id }.join(',')
-    joins(:types).where("types.id IN (#{type_ids})")
+    joins(:types).where("types.id IN (#{type_ids})").distinct
   }
+
+  scope :filter_by_keyword, ->(keyword) do
+    return self if keyword.blank?
+    joins(:genres)
+    .joins(:countries)
+    .joins(:types)
+    .where('places.name LIKE(?) or genres.name LIKE(?) or countries.name LIKE(?) or types.name LIKE(?)',"%#{keyword}%","%#{keyword}%","%#{keyword}%","%#{keyword}%")
+  end
 
   def image_url
     url_for(portrait)

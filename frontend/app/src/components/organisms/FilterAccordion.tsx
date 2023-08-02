@@ -1,30 +1,13 @@
-import { FC, memo } from "react";
+import { FC, memo, useContext } from "react";
 import { Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Box } from "@chakra-ui/react";
-import { Dispatch, SetStateAction } from "react";
 
-import { Places } from "types/place";
-import { Countries } from "types/states/country";
-import { Genres } from "types/states/genre";
-import { Types } from "types/states/type";
 import { GenreCheckBox } from "components/molecules/GenreCheckBox";
 import { CountryCheckBox } from "components/molecules/CountryCheckBox";
 import { TypeCheckBox } from "components/molecules/TypeCheckBox";
+import { PlaceContext } from "components/pages/AllPlaces";
 
-type FilterProps = {
-  onClickClear: () => void,
-  setPlaces: Dispatch<SetStateAction<Places[]>>,
-  genres: Array<Genres>,
-  setGenres: Dispatch<SetStateAction<Genres[]>>,
-  countries: Array<Countries>,
-  setCountries: Dispatch<SetStateAction<Countries[]>>,
-  types: Array<Types>,
-  setTypes: Dispatch<SetStateAction<Types[]>>
-  genre_categories: string[],
-  country_states: string[],
-}
-
-export const FilterAccordion: FC<FilterProps> = memo((props) => {
-  const { onClickClear, setPlaces, genres, setGenres, countries, setCountries, types, setTypes, genre_categories, country_states } = props
+export const FilterAccordion: FC = memo(() => {
+  const { onClickClear, genre_categories, country_states } = useContext(PlaceContext)
   return (
           <Accordion allowMultiple w={{md: "25%", lg: "20%"}} display={{ base: "none", md: "block"}} pr={6} color="white">
             <Box as="span" flex='1' p="4" color="gray" fontWeight="bold" fontSize="lg" >
@@ -46,7 +29,7 @@ export const FilterAccordion: FC<FilterProps> = memo((props) => {
                 <Accordion allowMultiple>
                   {
                     genre_categories.map((genre_category) => (
-                      <AccordionItem mt="2">
+                      <AccordionItem>
                         <h2>
                           <AccordionButton>
                             <Box as="span" flex='1' textAlign='left'>
@@ -56,8 +39,7 @@ export const FilterAccordion: FC<FilterProps> = memo((props) => {
                           </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4}>
-                          <GenreCheckBox setPlaces={setPlaces} genre_category={genre_category} genres={genres} setGenres={setGenres}
-                            countries={countries} types={types} />
+                          <GenreCheckBox genre_category={genre_category} />
                         </AccordionPanel>
                       </AccordionItem>
                     ))
@@ -88,8 +70,7 @@ export const FilterAccordion: FC<FilterProps> = memo((props) => {
                           </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4}>
-                          <CountryCheckBox setPlaces={setPlaces} country_state={country_state} countries={countries} setCountries={setCountries}
-                            genres={genres} types={types} />
+                          <CountryCheckBox country_state={country_state} />
                         </AccordionPanel>
                       </AccordionItem>
                     ))
@@ -107,7 +88,7 @@ export const FilterAccordion: FC<FilterProps> = memo((props) => {
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
-                <TypeCheckBox setPlaces={setPlaces} types={types} setTypes={setTypes} genres={genres} countries={countries} />
+                <TypeCheckBox />
               </AccordionPanel>
             </AccordionItem>
           </Accordion>

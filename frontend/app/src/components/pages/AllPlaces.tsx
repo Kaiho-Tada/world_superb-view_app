@@ -1,5 +1,5 @@
 import { Center, Flex, Spinner, Wrap, WrapItem, useDisclosure, Box, Button, Image } from "@chakra-ui/react";
-import { FC, memo, useState, useEffect, useCallback } from "react";
+import { FC, memo, useState, useEffect, useCallback, createContext, Dispatch, SetStateAction } from "react";
 import { useMessage } from "hooks/useMessage"
 
 import { PlaceAll } from "lib/api/place";
@@ -8,11 +8,33 @@ import { Places } from "types/place";
 import { FilterDrawer } from "components/molecules/FilterDrawer";
 import filter_icon from "img/511_s_f.png"
 import { FilterAccordion } from "components/organisms/FilterAccordion";
+import { SearchBox } from "components/molecules/SearchBox";
+import { Genres } from "types/states/genre";
+import { Countries } from "types/states/country";
+import { Types } from "types/states/type";
+
+export const PlaceContext = createContext({} as {
+  onCloseFilterDrawer: () => void,
+  isOpenFilterDrawer: () => void,
+  onClickClear: () => void,
+  setPlaces: Dispatch<SetStateAction<Places[]>>,
+  genres: Array<Genres>,
+  setGenres: Dispatch<SetStateAction<Genres[]>>,
+  countries: Array<Countries>,
+  setCountries: Dispatch<SetStateAction<Countries[]>>,
+  types: Array<Types>,
+  setTypes: Dispatch<SetStateAction<Types[]>>
+  genre_categories: string[],
+  country_states: string[],
+  keyword: string,
+  setKeyword: Dispatch<SetStateAction<string>>,
+})
 
 export const AllPlaces: FC = memo(() => {
 
   const [places, setPlaces] = useState<Array<Places>>([])
   const [loading, setLoading] = useState(false)
+  const [keyword, setKeyword] = useState<string>("")
   const {showMessage} = useMessage()
 
   const {
@@ -54,6 +76,8 @@ export const AllPlaces: FC = memo(() => {
       return type
     })
     setTypes(newTypes)
+
+    setKeyword("")
 
     getPlaces()
   }, [])
@@ -186,28 +210,30 @@ export const AllPlaces: FC = memo(() => {
           <Spinner />
         </Center>
       ) :(
-        <Flex py={{base: 6, md: 10, lg: 12}} px={{base: 3, md: 6, lg: 10}} display={{ base: "block", md: "flex"}} bg="black">
-          <FilterAccordion onClickClear={onClickClear} setPlaces={setPlaces} genres={genres} setGenres={setGenres} countries={countries}
-            setCountries={setCountries} types={types} setTypes={setTypes} genre_categories={genre_categories} country_states={country_states} />
-          <Box display={{ base: "block", md: "none"}} pb="3">
-            <Button colorScheme='red' variant='outline' onClick={onOpenFilterDrawer}  bg="white" >
-              <Image  boxSize="20px" src={filter_icon} color="red"
-                      mr="2" />
-              絞り込み
-            </Button>
-          </Box>
-          <FilterDrawer isOpenFilterDrawer={isOpenFilterDrawer} onCloseFilterDrawer={onCloseFilterDrawer}onClickClear={onClickClear}
-            setPlaces={setPlaces} genres={genres} setGenres={setGenres} countries={countries} setCountries={setCountries}
-            types={types} setTypes={setTypes} genre_categories={genre_categories} country_states={country_states} />
-
-          <Wrap w={{md: "75%", lg: "80%"}}>
-            {places.map((place) => (
-              <WrapItem key={place.id}>
-                <PlaceCard imageUrl={place.imageUrl} name={place.name} countries={place.countries}/>
-              </WrapItem>
-            ))}
-          </Wrap>
-        </Flex>
+        <PlaceContext.Provider value={{onCloseFilterDrawer, isOpenFilterDrawer, onClickClear, setPlaces, genres, setGenres,
+          countries, setCountries, types, setTypes, genre_categories, country_states, keyword, setKeyword}}>
+          <Flex py={{base: 6, md: 10, lg: 12}} px={{base: 3, md: 6, lg: 10}} display={{ base: "block", md: "flex"}} bg="black">
+            <FilterAccordion />
+            <Box display={{ base: "block", md: "none"}} pb="3">
+              <Button colorScheme='red' variant='outline' onClick={onOpenFilterDrawer}  bg="white" >
+                <Image  boxSize="20px" src={filter_icon} color="red"
+                        mr="2" />
+                絞り込み
+              </Button>
+            </Box>
+            <FilterDrawer />
+            <Box w={{md: "75%", lg: "80%"}} align="center">
+              <SearchBox />
+              <Wrap >
+                {places.map((place) => (
+                  <WrapItem key={place.id}>
+                    <PlaceCard imageUrl={place.imageUrl} name={place.name} countries={place.countries}/>
+                  </WrapItem>
+                ))}
+              </Wrap>
+            </Box>
+          </Flex>
+        </PlaceContext.Provider>
       )}
     </>
   )
