@@ -1,0 +1,60 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  SuggestExtensions: false
+  NewCops: enable
+  DisplayCopNames: true
+  Exclude:
+    - "Gemfile"
+    - "Gemfile.lock"
+    - "Rakefile"
+    - "config.ru"
+    - "bin/**/*"
+    - "db/**/*"
+    - "log/**/*"
+    - "tmp/**/*"
+    - "vendor/**/*"
+    - "db/schema.rb"
+    - "lib/tasks/auto_annotate_models.rake"
+    - "config/initializers/backtrace_silencers.rb"
+    - "config/initializers/filter_parameter_logging.rb"
+    - "config/environments/*"
+    - "config/boot.rb"
+    - "config/puma.rb"
+    - "config/spring.rb"
+
+# 一行あたりの文字数
+Layout/LineLength:
+  Enabled: false
+
+# メソッドの改行ルール
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+  # 文字列のダブルクォートチェック
+Style/StringLiterals:
+  Enabled: false
+
+# シンボルによる配列の%記法のチェック
+Style/SymbolArray:
+  Enabled: false
+
+# 文字列による配列の%記法のチェック
+Style/WordArray:
+  Enabled: false
+
+# 変数名に数字を許可
+Naming/VariableNumber:
+  Enabled: false
+
+# = と == の指摘
+Lint/AssignmentInCondition:
+  Enabled: false
+
+# メソッド名等の命名の指摘
+Naming/PredicateName:
+  Enabled: false
