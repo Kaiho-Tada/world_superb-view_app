@@ -7,7 +7,7 @@ export const FilterDrawer: FC = memo(() => {
   const { onCloseFilterDrawer, isOpenFilterDrawer } = useContext(PlaceContext)
 
   return (
-    <Drawer placement="right" onClose={onCloseFilterDrawer} isOpen={isOpenFilterDrawer} >
+    <Drawer placement="right" onClose={onCloseFilterDrawer} isOpen={isOpenFilterDrawer} role="drawer" >
       <DrawerOverlay>
         <DrawerContent>
           <DrawerBody py={3} >

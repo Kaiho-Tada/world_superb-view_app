@@ -7,7 +7,7 @@ import { useMessage } from "hooks/useMessage";
 import { PlaceContext } from "components/pages/AllPlaces";
 
 export const SearchBox: FC = memo(() => {
-  const { keyword, setKeyword, genres, countries, types, setPlaces } = useContext(PlaceContext)
+  const { keyword, setKeyword, genres, countries, types, setPlaces, risk_level } = useContext(PlaceContext)
   const {showMessage} = useMessage()
   const [loading, setLoading] = useState(false)
   const onChangeKeyword = (e: ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)
@@ -37,7 +37,7 @@ export const SearchBox: FC = memo(() => {
 
       const searchPlaces = async () => {
         setLoading(true)
-        const res = await SearchPlace(genre_names, country_names, type_names, keyword)
+        const res = await SearchPlace(genre_names, country_names, type_names, keyword, risk_level)
 
         console.log(res)
         if (res.status === 200) {

@@ -15,7 +15,7 @@ export const useMessage = () => {
       title,
       status,
       position: "top",
-      duration: 10000,
+      duration: 100000,
       isClosable: true
     })
   }, [])

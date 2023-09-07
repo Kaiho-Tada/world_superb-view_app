@@ -1,76 +1,23 @@
 import { Checkbox } from "@chakra-ui/react";
-import { FC, memo, useContext, useState } from "react";
-
-import { useMessage } from "hooks/useMessage";
-import { SearchPlace } from "lib/api/place";
+import { FC, memo, useContext } from "react";
 import { PlaceContext } from "components/pages/AllPlaces";
+import { useCountryCheckBox } from "hooks/api/useCountryCheckBox";
 
-type CountryCheckBoxProps = {
-  country_state: string,
+type Props = {
+  countryState: string;
 }
 
-export const CountryCheckBox: FC<CountryCheckBoxProps> = memo((props) => {
-  const { country_state } = props
-  const { setPlaces, countries, setCountries, genres, types, keyword } = useContext(PlaceContext)
-  const [loading, setLoading] = useState(false)
-  const {showMessage} = useMessage()
-
-  const handleChange = (e: any) => {
-
-    const filteredGenres = genres.filter(genre => {
-      return genre.checked === true
-    })
-
-    const genre_names = filteredGenres.map(filteredGenre => {
-      return filteredGenre.label
-    })
-
-    const filteredTypes = types.filter(type => {
-      return type.checked === true
-    })
-
-    const type_names = filteredTypes.map(filteredType => {
-      return filteredType.label
-    })
-
-    const newCountries = countries.map(country => {
-      if(country.label === e.target.value) {
-        country.checked = !country.checked
-      }
-      return country
-    })
-    setCountries(newCountries)
-
-    const filteredCountries = newCountries.filter(newCountry => {
-      return newCountry.checked === true
-    })
-
-    const country_names = filteredCountries.map(filteredCountry => {
-      return filteredCountry.label
-    })
-
-    const searchPlaces = async () => {
-      setLoading(true)
-      const res = await SearchPlace(genre_names, country_names, type_names, keyword)
-
-      console.log(res)
-      if (res.status === 200) {
-        setPlaces(res.data)
-      }else {
-        showMessage({title: "ユーザー取得に失敗しました", status: "error"})
-      }
-      setLoading(false)
-    }
-
-    searchPlaces()
-  }
+export const CountryCheckBox: FC<Props> = memo((props) => {
+  const { countryState } = props;
+  const { setPlaces, countries, setCountries, genres, types, keyword, riskLevels, seasons } = useContext(PlaceContext);
+  const { handleChange } = useCountryCheckBox({ setPlaces, genres, types, riskLevels, seasons, countries, setCountries, keyword });
 
   return (
     <div>
       {countries.map(country => {
-        if(country.state === country_state) {
+        if(country.state == countryState) {
           return (
-            <Checkbox key={country.label} size='md' colorScheme='green' isChecked={country.checked} value={country.label} onChange={handleChange}>
+            <Checkbox aria-hidden="false" key={country.label} size='md' colorScheme='green' isChecked={country.checked} value={country.label} onChange={handleChange}>
               {country.label}
             </Checkbox>
           )

@@ -1,12 +1,13 @@
-import { Place } from "./place";
+import { refPlace } from "types/ref/refPlace";
 import { State } from "./state";
 
 export type Country = {
-  createdAt: Date;
+  // createdAt: Date;
   id: number;
   name: string;
   stateId: number;
-  updatedAt: Date;
-  places: Array<Place>;
-  state: State
+  // updatedAt: Date;
+  places: Array<refPlace>;
+  state: State;
+  riskLevel: number;
 }

@@ -1,4 +1,4 @@
-import { Place } from "./place";
+import { refPlace } from "types/ref/refPlace";
 
 export type Genre = {
   category: string;
@@ -6,5 +6,5 @@ export type Genre = {
   id: number;
   name: string;
   updatedAt: Date;
-  places: Array<Place>;
+  places: Array<refPlace>;
 }

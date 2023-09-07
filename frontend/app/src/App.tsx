@@ -1,25 +1,30 @@
-import { createContext, FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import {BrowserRouter} from "react-router-dom";
 import {Router} from "./router/Router"
-
 import theme from "./theme/theme";
 import { getCurrentUser } from "lib/api/auth";
-import { User } from "types/api/user";
+import { useAuth } from "hooks/provider/useAuthProvider";
 
-export const AuthContext = createContext({} as {
-  loading: boolean
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>
-  isSignedIn: boolean
-  setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>
-  currentUser: User | undefined
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>
-})
+// export const AuthContext = createContext({} as {
+//   loading: boolean
+//   setLoading: React.Dispatch<React.SetStateAction<boolean>>
+//   isSignedIn: boolean
+//   setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>
+//   currentUser: User | undefined
+//   setCurrentUser: React.Dispatch<React.SetStateAction<User | undefined>>
+// })
 const App: FC = () => {
 
-  const [loading, setLoading] = useState<boolean>(false)
-  const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
-  const [currentUser, setCurrentUser] = useState<User | undefined>()
+  // const [loading, setLoading] = useState<boolean>(false)
+  // const [isSignedIn, setIsSignedIn] = useState<boolean>(false)
+  // const [currentUser, setCurrentUser] = useState<User | undefined>()
+  // const { setIsSignedIn, setCurrentUser, loading, setLoading } = useContext(AuthContext)
+  // const { setIsSignedIn, setCurrentUser, setLoading } = useAuth()
+
+
+  // const { setIsSignedIn, setCurrentUser, setLoading } = useContext(AuthContext)
+  const { setIsSignedIn, setCurrentUser, setLoading } = useAuth()
 
   const handleGetCurrentUser = async () => {
     setLoading(true)
@@ -44,12 +49,9 @@ const App: FC = () => {
   }, [setCurrentUser])
 
   return (
-
     <ChakraProvider theme={theme}>
       <BrowserRouter>
-        <AuthContext.Provider value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser }}>
-          <Router />
-        </AuthContext.Provider>
+        <Router />
       </BrowserRouter>
     </ChakraProvider>
   )

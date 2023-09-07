@@ -1,0 +1,335 @@
+import {act, fireEvent, render, screen} from "@testing-library/react";
+import '@testing-library/jest-dom'
+import {BrowserRouter} from "react-router-dom";
+import { AuthProvider } from "useAuthProvider";
+import axios from "axios";
+import { AllPlaces } from "components/pages/AllPlaces";
+// const mock = new MockAdapter(axios);
+// mock.onPost(`http://localhost:3001/api/v1/auth/sign_in`);
+import MockAdapter from 'axios-mock-adapter';
+import client from "lib/api/client";
+import ReactDOM from 'react-dom/client';
+
+// let container;
+
+// beforeEach(() => {
+//   container = document.createElement('div');
+//   document.body.appendChild(container);
+// });
+
+afterEach(() => {
+  // document.body.removeChild(container);
+  // container = null;
+  mockAxios.resetHistory()
+});
+
+const mockedNavigator = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedNavigator,
+}));
+
+const mockAxios = new MockAdapter(client);
+test("外部データ取得後", async () => {
+
+  mockAxios.onGet('/places').reply(200,
+      [{
+        id: 1,
+        name: "デットフレイ",
+        countries: [
+          { id: 47, name: "ナミビア", riskLevel: 1 }
+        ],
+        imageUrl: "http://localhost:3001/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2156d0bfd97f07e2888b6c5f2eaf326e2be25e06/%E3%83%87%E3%83%83%E3%83%88%E3%83%95%E3%83%AC%E3%82%A4.avif"
+      },
+      {
+        id: 2,
+        name: "ヴィクトリアの滝",
+        countries: [
+          { id: 47, name: "ザンビア", riskLevel: 1 },
+          { id: 38, name: "エルニド", riskLevel: 2 }
+        ],
+        imageUrl: "http://localhost:3001/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2156d0bfd97f07e2888b6c5f2eaf326e2be25e06/%E3%83%87%E3%83%83%E3%83%88%E3%83%95%E3%83%AC%E3%82%A4.avif"
+      }]
+  )
+
+  mockAxios.onGet('/genres').reply(200,
+    [
+      {
+        id: 1,
+        name: "滝",
+        category: "自然",
+        places: [
+          { id: 2, name: "ヴィクトリアの滝" },
+          { id: 13, name: "セリャラントスフォス" }
+        ],
+      },
+      {
+        id: 31,
+        name: "城",
+        category: "人工",
+        places: [
+          { id: 40, name: "万里の長城" },
+        ],
+      }
+    ]
+  )
+
+  mockAxios.onGet('/countries').reply(200,
+    [
+      {
+        id: 1,
+        name: "インドネシア",
+        places: [
+          { id: 46, name: 'イジェン火山' }
+        ],
+        riskLevel: 1,
+        state: { name: "アジア" },
+        stateId: 1
+      },
+      {
+        id: 2,
+        name: "フィリピン",
+        places: [
+          { id: 46, name: 'チョコレートヒルズ' },
+          { id: 38, name: 'エルニド' }
+        ],
+        riskLevel: 2,
+        state: { name: "アジア"},
+        stateId: 1
+      }
+    ]
+  )
+
+  mockAxios.onGet('/types').reply(200,
+    [
+      {
+        id: 1,
+        name: "歴史・文化的",
+        places: [
+          { id: 5, name: 'アイトベンハドゥ' },
+          { id: 9, name: 'チヴィタディバニョレージョ' },
+        ]
+      },
+      {
+        id: 4,
+        name: "幻想・神秘的",
+        places: [
+          { id: 11, name: 'マテーラの洞窟住居' },
+          { id: 19, name: 'モン・サン・ミシェル' },
+        ]
+      },
+    ]
+  )
+  await act(async () => {
+    render(
+      <AuthProvider>
+        <BrowserRouter>
+          <AllPlaces />
+        </BrowserRouter>,
+      </AuthProvider>,
+      );
+  });
+
+  act(() => {
+    const {debug, container} = render(
+      <AuthProvider>
+        <BrowserRouter>
+          <AllPlaces />
+        </BrowserRouter>
+      </AuthProvider>
+    )
+  });
+  // act(() => {
+  //   ReactDOM.createRoot(container).render(
+  //     <AuthProvider>
+  //       <BrowserRouter>
+  //         <AllPlaces />
+  //       </BrowserRouter>
+  //     </AuthProvider>
+  //   );
+  // });
+    // act(() => {
+    //   ReactDOM.render(
+    //     <AuthProvider>
+    //       <BrowserRouter>
+    //         <AllPlaces />
+    //       </BrowserRouter>
+    //     </AuthProvider>
+    //   );
+    // });
+
+    // const loadingSpinner = screen.getByRole('spinner');
+    // expect(loadingSpinner).toBeInTheDocument();
+})
+
+
+test('外部データ取得中', () => {
+  const {debug, container} = render(
+    <AuthProvider>
+      <BrowserRouter>
+        <AllPlaces />
+      </BrowserRouter>
+    </AuthProvider>
+  )
+  const loadingSpinner = screen.getByRole('spinner');
+  expect(loadingSpinner).toBeInTheDocument();
+})
+
+// const mockApi = jest.fn().mockName('mock-api');
+// jest.mock("axios", () => ({
+//   __esModule: true,
+//   default: {
+//     create: jest.fn(() => {
+//       return {
+//         interceptors: {
+//           request: { use: jest.fn() },
+//           response: { use: jest.fn() },
+//         },
+//         post: mockApi,
+//       };
+//     }),
+//   },
+// }))
+
+// const createMock = axios.create({
+//   baseURL: 'http://localhost:3001/api/v1',
+//   // headers: {
+//   //   'Content-Type': 'application/json',
+//   // },
+//   // responseType: 'json',
+// })
+// jest.spyOn(axios, 'create').mockReturnValue(createMock)
+// const axiosGetSpy = jest.spyOn(createMock, 'get')
+
+// const axiosGetSpy = jest.spyOn(client, 'get')
+// test('外部データ取得後', () => {
+//   beforeEach(() => {
+//     axiosGetSpy.mockResolvedValue({ response: {
+//       data: [
+//         {
+//           id: 1,
+//           name: "デットフレイ",
+//           countries: { id: 47, name: "ナミビア", riskLevel: 1 },
+//           imageUrl: "http://localhost:3001/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2156d0bfd97f07e2888b6c5f2eaf326e2be25e06/%E3%83%87%E3%83%83%E3%83%88%E3%83%95%E3%83%AC%E3%82%A4.avif"
+//         },
+//         {
+//           id: 2,
+//           name: "ヴィクトリアの滝",
+//           countries: [
+//             { id: 47, name: "ザンビア", riskLevel: 1 },
+//             { id: 38, name: "エルニド", riskLevel: 2 }
+//           ],
+//           imageUrl: "http://localhost:3001/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2156d0bfd97f07e2888b6c5f2eaf326e2be25e06/%E3%83%87%E3%83%83%E3%83%88%E3%83%95%E3%83%AC%E3%82%A4.avif"
+//         }
+//       ]
+//     }})
+//   })
+//   const {debug, container} = render(
+//     <AuthProvider>
+//       <BrowserRouter>
+//         <AllPlaces />
+//       </BrowserRouter>
+//     </AuthProvider>
+//   )
+//   const loadingSpinner = screen.getByRole('spinner');
+//   expect(loadingSpinner).toBeInTheDocument();
+// })
+
+
+// test('外部データ取得後', async () => {
+
+//   axios.get.mockResolvedValue({
+//     data: [
+//       {
+//         id: 1,
+//         name: "デットフレイ",
+//         countries: { id: 47, name: "ナミビア", riskLevel: 1 },
+//         imageUrl: "http://localhost:3001/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2156d0bfd97f07e2888b6c5f2eaf326e2be25e06/%E3%83%87%E3%83%83%E3%83%88%E3%83%95%E3%83%AC%E3%82%A4.avif"
+//       },
+//       {
+//         id: 2,
+//         name: "ヴィクトリアの滝",
+//         countries: [
+//           { id: 47, name: "ザンビア", riskLevel: 1 },
+//           { id: 38, name: "エルニド", riskLevel: 2 }
+//         ],
+//         imageUrl: "http://localhost:3001/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2156d0bfd97f07e2888b6c5f2eaf326e2be25e06/%E3%83%87%E3%83%83%E3%83%88%E3%83%95%E3%83%AC%E3%82%A4.avif"
+//       }
+//     ]
+//   })
+
+//   axios.get.mockResolvedValue({
+//     data: [
+//       {
+//         id: 1,
+//         name: "滝",
+//         category: "自然",
+//         places: [
+//           { id: 2, name: "ヴィクトリアの滝" },
+//           { id: 13, name: "セリャラントスフォス" }
+//         ],
+//       },
+//       {
+//         id: 31,
+//         name: "城",
+//         category: "人工",
+//         places: [
+//           { id: 40, name: "万里の長城" },
+//         ],
+//       }
+//     ]
+//   })
+
+//   axios.get.mockResolvedValue({
+//     data: [
+//       {
+//         id: 1,
+//         name: "インドネシア",
+//         places: { id: 46, name: 'イジェン火山' },
+//         riskLevel: 1,
+//         state: { name: "アジア" },
+//         stateId: 1
+//       },
+//       {
+//         id: 2,
+//         name: "フィリピン",
+//         places: [
+//           { id: 46, name: 'チョコレートヒルズ' },
+//           { id: 38, name: 'エルニド' }
+//         ],
+//         riskLevel: 2,
+//         state: { name: "アジア"},
+//         stateId: 1
+//       }
+//     ]
+//   })
+
+//   axios.get.mockResolvedValue({
+//     data: [
+//       {
+//         id: 1,
+//         name: "歴史・文化的",
+//         places: [
+//           { id: 5, name: 'アイトベンハドゥ' },
+//           { id: 9, name: 'チヴィタディバニョレージョ' },
+//         ]
+//       },
+//       {
+//         id: 4,
+//         name: "幻想・神秘的",
+//         places: [
+//           { id: 11, name: 'マテーラの洞窟住居' },
+//           { id: 19, name: 'モン・サン・ミシェル' },
+//         ]
+//       },
+//     ]
+//   })
+
+//   const {debug, container} = render(
+//       <BrowserRouter>
+//         <AllPlaces />
+//       </BrowserRouter>
+//   )
+//   const filterAccordion = await screen.findByRole('accordion');
+//   expect(filterAccordion).toBeInTheDocument();
+// })

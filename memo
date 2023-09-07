@@ -1,0 +1,263 @@
+  return (
+          <div>
+            {
+              (() => {
+                if(countries.length > 1) {
+                  const riskLevels = countries.map((country) => {
+                    return country.riskLevel
+                  })
+                  const maxRiskLevel = Math.max(...riskLevels);
+                  if(maxRiskLevel == 4) {
+                    return (
+                      <Flex align="center">
+                        <Heading size="xs" pr="2">4</Heading>
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Text fontSize="xs" pl="0.5">(リスクレベル)</Text>
+                      </Flex>
+                    )
+                  } else if(maxRiskLevel == 3){
+                    return (
+                      <Flex align="center">
+                        <Heading size="xs" pr="2">3</Heading>
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Text fontSize="xs" pl="0.5">(リスクレベル)</Text>
+                      </Flex>
+                    )
+                  } else if(maxRiskLevel == 2){
+                    return (
+                      <Flex align="center">
+                        <Heading size="xs" pr="2">2</Heading>
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Text fontSize="xs" pl="0.5">(リスクレベル)</Text>
+                      </Flex>
+                    )
+                  } else if(maxRiskLevel == 1){
+                    return (
+                      <Flex align="center">
+                        <Heading size="xs" pr="2">1</Heading>
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Text fontSize="xs" pl="0.5">(リスクレベル)</Text>
+                      </Flex>
+                    )
+                  } else if(maxRiskLevel == 0){
+                    return (
+                      <Flex align="center">
+                        <Heading size="xs" pr="2">0</Heading>
+                        <Text fontSize="xs">(リスクレベル)</Text>
+                      </Flex>
+                    )
+                  }
+                } else {
+                  if(countries[0].riskLevel == 4) {
+                    return (
+                      <Flex align="center">
+                        <Heading size="xs" pr="2">4</Heading>
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Text fontSize="xs" pl="0.5">(リスクレベル)</Text>
+                      </Flex>
+                    )
+                  } else if(countries[0].riskLevel == 3){
+                    return (
+                      <Flex align="center">
+                        <Heading size="xs" pr="2">3</Heading>
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Text fontSize="xs" pl="0.5">(リスクレベル)</Text>
+                      </Flex>
+                    )
+                  } else if(countries[0].riskLevel == 2){
+                    return (
+                      <Flex align="center">
+                        <Heading size="xs" pr="2">2</Heading>
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Text fontSize="xs" pl="0.5">(リスクレベル)</Text>
+                      </Flex>
+                    )
+                  } else if(countries[0].riskLevel == 1){
+                    return (
+                      <Flex align="center">
+                        <Heading size="xs" pr="2">1</Heading>
+                        <Image  boxSize="13px" src={icon_star} mr="0.5" />
+                        <Text fontSize="xs" pl="0.5">(リスクレベル)</Text>
+                      </Flex>
+                    )
+                  } else if(countries[0].riskLevel == 0){
+                    return (
+                      <Flex align="center">
+                        <Heading size="xs" pr="2">0</Heading>
+                        <Text fontSize="xs">(リスクレベル)</Text>
+                      </Flex>
+                    )
+                  }
+                }
+              })()
+            }
+          </div>
+  )
+})
+
+
+<PlaceContext.Provider value={{onCloseFilterDrawer, isOpenFilterDrawer, onClickClear, setPlaces, genres, setGenres,
+  countries, setCountries, types, setTypes, genreCategories, countryStates, keyword, setKeyword, riskLevels, setRiskLevels,
+  seasons, setSeasons}}>
+
+
+
+
+  <PlaceProvider
+        onCloseFilterDrawer={onCloseFilterDrawer}
+        isOpenFilterDrawer={isOpenFilterDrawer}
+        onClickClear={onClickClear}
+        setPlaces={setPlaces}
+        genres={genres}
+        setGenres={setGenres}
+        countries={countries}
+        setCountries={setCountries}
+        types={types} setTypes={setTypes}
+        genreCategories={genreCategories}
+        countryStates={countryStates}
+        keyword={keyword}
+        setKeyword={setKeyword}
+        riskLevels={riskLevels}
+        setRiskLevels={setRiskLevels}
+        seasons={seasons}
+        setSeasons={setSeasons}>
+
+
+        // const filteredGenres = genres.filter(genre => {
+          //   return genre.checked === true
+          // });
+
+          // const genre_names = filteredGenres.map(filteredGenre => {
+          //   return filteredGenre.label
+          // });
+
+          // const filteredCountries = countries.filter(country => {
+          //   return country.checked === true
+          // });
+
+          // const country_names = filteredCountries.map(filteredCountry => {
+          //   return filteredCountry.label
+          // });
+
+          // const filteredRiskLevels = riskLevels.filter(riskLevel => {
+          //   return riskLevel.checked == true
+          // });
+
+          // const riskLevelNames = filteredRiskLevels.map(filteredRiskLevel => {
+          //   return filteredRiskLevel.label
+          // });
+
+          // const filteredSeasons = seasons.filter(season => {
+          //   return season.checked === true
+          // });
+
+          // const seasonsNames = filteredSeasons.map(filteredRiskLevel => {
+          //   return filteredRiskLevel.label
+          // });
+          const filteredCountries = countries.filter(country => {
+            return country.checked === true
+          });
+
+          const country_names = filteredCountries.map(filteredCountry => {
+            return filteredCountry.label
+          });
+
+          const filteredTypes = types.filter(type => {
+            return type.checked === true
+          });
+
+          const type_names = filteredTypes.map(filteredType => {
+            return filteredType.label
+          });
+
+          const filteredGenres = genres.filter(genre => {
+            return genre.checked === true
+          });
+
+          const genre_names = filteredGenres.map(filteredGenre => {
+            return filteredGenre.label
+          });
+
+          const filteredSeasons = seasons.filter(season => {
+            return season.checked === true
+          });
+
+          const seasonsNames = filteredSeasons.map(filteredRiskLevel => {
+            return filteredRiskLevel.label
+          });
+
+          <PlaceContext.Provider value={{onCloseFilterDrawer, isOpenFilterDrawer, onClickClear, setPlaces, genres, setGenres,
+            countries, setCountries, types, setTypes, genreCategories, countryStates, keyword, setKeyword, riskLevels, setRiskLevels,
+            seasons, setSeasons}}>
+              {/* <Flex py={{base: 6, md: 10, lg: 12}} px={{base: 3, md: 6, lg: 10}} display={{ base: "block", md: "flex"}} bg="black"> */}
+              {/* <FilterAccordion /> */}
+            <Box pt={{base: 6, md: 10, lg: 12}} pl={{base: 6, md: 12, lg: 20}}>
+              <Flex>
+                <Box pb="4" pr="5">
+                  <Button colorScheme='red' variant='outline' onClick={onOpenFilterDrawer}  bg="white" >
+                    <Image  boxSize="20px" src={filter_icon} color="red"
+                            mr="2" />
+                    絞り込み
+                  </Button>
+                </Box>
+                {/* <Select placeholder='並び替え' w="200px" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSortByRiskLevel(e)}>
+                  <option value='1'>riskLevelが低い順</option>
+                  <option value='option2'>BMI指数が低い順</option>
+                </Select> */}
+              </Flex>
+
+              <FilterDrawer />
+              {
+                (() => {
+                  if (loadingPlaces == true) {
+                    return (
+                      <Center h="70vh">
+                        <Spinner role="spinner" />
+                      </Center>
+                    )
+                  }else {
+                    return (
+                      <Box align="center">
+                        {/* <SearchBox /> */}
+                        <Wrap>
+                          {places.map((place) => (
+                            <WrapItem w={{md: "100%", lg: "49%"}} key={place.id} onClick={(e: React.MouseEvent<HTMLLIElement, MouseEvent>) => onClickPlaceDetail(e, place)}>
+                              <PlaceCard imageUrl={place.imageUrl} name={place.name} countries={place.countries}/>
+                            </WrapItem>
+                          ))}
+                        </Wrap>
+                      </Box>
+                    )
+                  }
+                })()
+              }
+            </Box>
+            {/* </Flex> */}
+          </PlaceContext.Provider>
+
+          import { refCountry } from "types/ref/refCountry";
+import { refGenre } from "types/ref/refGenre";
+
+export type Place = {
+  id: number;
+  countries: Array<refCountry>;
+  genres: Array<refGenre>;
+  // createdAt: Date;
+  name: string;
+  imageUrl: string;
+  // season: string;
+  // updatedAt: Date;
+  panoramaUrl: string;
+}

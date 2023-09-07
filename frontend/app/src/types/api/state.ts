@@ -1,6 +1,6 @@
 export type State = {
   id: number;
-  createdAt: Date;
+  // createdAt: Date;
   name: string;
-  updatedAt: Date;
+  // updatedAt: Date;
 }

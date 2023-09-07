@@ -1,11 +1,12 @@
-import { Country } from "./country";
+import { refCountry } from "types/ref/refCountry";
+import { refGenre } from "types/ref/refGenre";
 
 export type Place = {
   id: number;
-  countries: Array<Country>;
-  createdAt: Date;
+  countries: Array<refCountry>;
+  genres: Array<refGenre>;
   name: string;
   imageUrl: string;
-  updatedAt: Date;
-  panoramaUrl: string | null;
+  season: string;
+  panoramaUrl: string;
 }

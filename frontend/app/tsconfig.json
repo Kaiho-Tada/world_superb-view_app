@@ -20,8 +20,10 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "src",
+    // "typeRoots": ["./@types/"]
   },
   "include": [
     "src"
   ]
+
 }
